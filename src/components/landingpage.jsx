@@ -8,7 +8,7 @@ const LandingPage = () => {
   const [movies, setMovies] = useState(initialMovies);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const [currentPage, setCurrentPage] = useState(1); 
   const moviesPerPage = 3;
   const navigate = useNavigate();
   const { addToFavourites } = useMovieContext();
@@ -134,7 +134,7 @@ const LandingPage = () => {
           )}
         </div>
 
-        {/* Pagination Controls */}
+        
         <div className="flex justify-center mt-4 mb-8">
           {Array.from({ length: totalPages }, (_, index) => (
             <button
