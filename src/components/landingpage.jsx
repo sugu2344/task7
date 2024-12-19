@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { moviesLoader } from "../loader/movieloaders";
+import { useMovieContext } from "../contexts/movie";
 
 const LandingPage = () => {
   const initialMovies = useLoaderData();
   const [movies, setMovies] = useState(initialMovies);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const { addToFavourites } = useMovieContext();
 
   const handleSearch = async (e) => {
     const value = e.target.value;
@@ -33,6 +35,11 @@ const LandingPage = () => {
     navigate(`/detailpage/${movie.imdbID}`, {
       state: { imdbID: movie.imdbID },
     });
+  };
+
+  const handleAddToFavorites = (movie) => {
+    addToFavourites(movie);
+    // navigate("/favourites");
   };
 
   return (
@@ -76,7 +83,10 @@ const LandingPage = () => {
                     >
                       View Details
                     </button>
-                    <button className="border-2 p-2 rounded-xl hover:bg-black hover:text-white cursor-pointer mt-auto">
+                    <button
+                      onClick={() => handleAddToFavorites(movie)} // Updated to navigate
+                      className="border-2 p-2 rounded-xl hover:bg-black hover:text-white cursor-pointer mt-auto"
+                    >
                       Add to Favorites
                     </button>
                   </div>

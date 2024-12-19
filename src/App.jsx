@@ -3,6 +3,8 @@ import Homepage from "./components/homepage";
 import MovieDetailPage from "./components/moviedetailpage";
 import LandingPage from "./components/landingpage";
 import { moviesLoader } from "./loader/movieloaders";
+import Favourites from "./components/favourites";
+import { MovieProvider } from "./contexts/movie";
 
 const App = () => {
   const routes = [
@@ -20,9 +22,14 @@ const App = () => {
           path: "/detailpage/:id",
           element: <MovieDetailPage />,
         },
+        {
+          path: "/favourites",
+          element: <Favourites />,
+        },
       ],
     },
   ];
+
   let router = createBrowserRouter(routes, {
     future: {
       v7_fetcherPersist: true,
@@ -35,9 +42,9 @@ const App = () => {
   });
 
   return (
-    <movieProvider>
+    <MovieProvider>
       <RouterProvider router={router} future={{ v7_relativeSplatPath: true }} />
-    </movieProvider>
+    </MovieProvider>
   );
 };
 
