@@ -7,6 +7,7 @@ const LandingPage = () => {
   const initialMovies = useLoaderData();
   const [movies, setMovies] = useState(initialMovies);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("all");
   const navigate = useNavigate();
   const { addToFavourites } = useMovieContext();
 
@@ -20,16 +21,31 @@ const LandingPage = () => {
     }
 
     const searchedMovies = await moviesLoader(value);
-    setMovies(searchedMovies);
+    applyFilter(searchedMovies, filter);
+  };
+
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+    setFilter(value);
+    applyFilter(movies, value);
+  };
+
+  const applyFilter = (moviesList, type) => {
+    if (type === "all") {
+      setMovies(moviesList);
+    } else {
+      const filteredMovies = moviesList.filter((movie) => movie.Type === type);
+      setMovies(filteredMovies);
+    }
   };
 
   useEffect(() => {
     const loadMovies = async () => {
       const loadedMovies = await moviesLoader(searchTerm);
-      setMovies(loadedMovies);
+      applyFilter(loadedMovies, filter);
     };
     loadMovies();
-  }, [searchTerm]);
+  }, [searchTerm, filter]);
 
   const handleViewDetails = (movie) => {
     navigate(`/detailpage/${movie.imdbID}`, {
@@ -39,13 +55,12 @@ const LandingPage = () => {
 
   const handleAddToFavorites = (movie) => {
     addToFavourites(movie);
-    // navigate("/favourites");
   };
 
   return (
     <div className="py-10 my-3 mx-3">
       <div className="bg-[#F7F7F2]">
-        <div className="pt-3 pb-3 flex justify-center">
+        <div className="pt-3 pb-3 flex justify-center items-center gap-4">
           <input
             className="w-[60%] p-2 border border-spacing-2"
             placeholder="Search by Movie Name...."
@@ -53,6 +68,16 @@ const LandingPage = () => {
             value={searchTerm}
             onChange={handleSearch}
           />
+          <select
+            className="p-2 border border-spacing-2"
+            value={filter}
+            onChange={handleFilterChange}
+          >
+            <option value="all">All</option>
+            <option value="movie">Movies</option>
+            <option value="series">Series</option>
+            <option value="episode">Episodes</option>
+          </select>
         </div>
 
         <div className="flex flex-wrap gap-4 p-5 bg-[#0D1F2D] py-6 mx-4">
@@ -84,7 +109,7 @@ const LandingPage = () => {
                       View Details
                     </button>
                     <button
-                      onClick={() => handleAddToFavorites(movie)} // Updated to navigate
+                      onClick={() => handleAddToFavorites(movie)}
                       className="border-2 p-2 rounded-xl hover:bg-black hover:text-white cursor-pointer mt-auto"
                     >
                       Add to Favorites
