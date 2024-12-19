@@ -4,9 +4,9 @@ const moviesLoader = async () => {
   try {
     const response = await instance.get("/", {
       params: {
-        apikey: "2847fd3c", 
-        type: "movie",
-        s: "infinity war", 
+        apikey: "2847fd3c",
+        // type: "movie",
+        s: "infinity war",
       },
     });
     const data = response.data;
