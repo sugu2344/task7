@@ -47,7 +47,7 @@ const MovieDetailPage = () => {
             <strong>Genre:</strong> {movie.Genre || "N/A"}
           </p>
           <p>
-            <strong>Plot:</strong> {movie.Plot || "N/A"}
+            <strong>Plot Summary:</strong> {movie.Plot || "N/A"}
           </p>
           <p>
             <strong>Rating:</strong> {movie.imdbRating || "N/A"}

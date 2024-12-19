@@ -8,7 +8,7 @@ const LandingPage = () => {
   const [movies, setMovies] = useState(initialMovies);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 3;
   const navigate = useNavigate();
   const { addToFavourites } = useMovieContext();
@@ -134,12 +134,11 @@ const LandingPage = () => {
           )}
         </div>
 
-        
         <div className="flex justify-center mt-4 mb-8">
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index + 1}
-              className={`px-4 py-2 mx-1 ${
+              className={`px-4 py-2 mx-1 rounded-xl ${
                 currentPage === index + 1
                   ? "bg-blue-500 text-white"
                   : "bg-gray-300"

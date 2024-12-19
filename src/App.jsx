@@ -5,6 +5,7 @@ import LandingPage from "./components/landingpage";
 import { moviesLoader } from "./loader/movieloaders";
 import Favourites from "./components/favourites";
 import { MovieProvider } from "./contexts/movie";
+import Error from "./components/error";
 
 const App = () => {
   const routes = [
@@ -25,6 +26,10 @@ const App = () => {
         {
           path: "/favourites",
           element: <Favourites />,
+        },
+        {
+          path: "*",
+          element: <Error />,
         },
       ],
     },
