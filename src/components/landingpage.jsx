@@ -7,7 +7,9 @@ const LandingPage = () => {
   const initialMovies = useLoaderData();
   const [movies, setMovies] = useState(initialMovies);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [filterType, setFilterType] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const moviesPerPage = 3;
   const navigate = useNavigate();
   const { addToFavourites } = useMovieContext();
 
@@ -21,12 +23,12 @@ const LandingPage = () => {
     }
 
     const searchedMovies = await moviesLoader(value);
-    applyFilter(searchedMovies, filter);
+    applyFilter(searchedMovies, filterType);
   };
 
   const handleFilterChange = (e) => {
     const value = e.target.value;
-    setFilter(value);
+    setFilterType(value);
     applyFilter(movies, value);
   };
 
@@ -42,10 +44,10 @@ const LandingPage = () => {
   useEffect(() => {
     const loadMovies = async () => {
       const loadedMovies = await moviesLoader(searchTerm);
-      applyFilter(loadedMovies, filter);
+      applyFilter(loadedMovies, filterType);
     };
     loadMovies();
-  }, [searchTerm, filter]);
+  }, [searchTerm, filterType]);
 
   const handleViewDetails = (movie) => {
     navigate(`/detailpage/${movie.imdbID}`, {
@@ -55,6 +57,15 @@ const LandingPage = () => {
 
   const handleAddToFavorites = (movie) => {
     addToFavourites(movie);
+  };
+
+  const totalPages = Math.ceil(movies.length / moviesPerPage);
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -70,7 +81,7 @@ const LandingPage = () => {
           />
           <select
             className="p-2 border border-spacing-2"
-            value={filter}
+            value={filterType}
             onChange={handleFilterChange}
           >
             <option value="all">All</option>
@@ -80,9 +91,9 @@ const LandingPage = () => {
           </select>
         </div>
 
-        <div className="flex flex-wrap gap-4 p-5 bg-[#0D1F2D] py-6 mx-4">
-          {movies.length > 0 ? (
-            movies.map((movie) => (
+        <div className="flex flex-wrap justify-around gap-4 p-5 bg-[#0D1F2D] py-6 mx-4">
+          {currentMovies.length > 0 ? (
+            currentMovies.map((movie) => (
               <div
                 key={movie.imdbID}
                 className="w-full sm:w-[45%] md:w-[30%] lg:w-[23%] border-2 bg-white p-4 flex flex-col"
@@ -98,10 +109,10 @@ const LandingPage = () => {
                 />
                 <div className="flex flex-col justify-between flex-grow text-center space-y-3 mt-3">
                   <h1 className="font-bold text-2xl">{movie.Title}</h1>
-                  <p className="text-justify flex justify-center">
+                  {/* <p className="text-justify flex justify-center">
                     {movie.Year}
-                  </p>
-                  <div className="flex space-x-2">
+                  </p> */}
+                  <div className="flex space-x-2 justify-around">
                     <button
                       onClick={() => handleViewDetails(movie)}
                       className="border-2 p-2 rounded-xl text-[#FF3562] hover:bg-black hover:text-white cursor-pointer mt-auto"
@@ -121,6 +132,23 @@ const LandingPage = () => {
           ) : (
             <p className="text-white">No movies found.</p>
           )}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-4 mb-8">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              className={`px-4 py-2 mx-1 ${
+                currentPage === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-300"
+              }`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>
