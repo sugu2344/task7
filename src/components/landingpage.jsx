@@ -3,8 +3,9 @@ import React from "react";
 const LandingPage = () => {
   return (
     <>
-      <div>landing page</div>
-      <div>landing page 2</div>
+      <div className="pt-12 px-2">
+        <div className="bg-[#0D1F2D] text-white px-6"></div>
+      </div>
     </>
   );
 };

@@ -1,3 +1,5 @@
+import { Outlet } from "react-router-dom";
+
 const NavBar = () => {
   return (
     <>
@@ -21,6 +23,9 @@ const NavBar = () => {
           </div>
         </div>
       </header>
+      <main>
+        <Outlet />
+      </main>
     </>
   );
 };
