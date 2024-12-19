@@ -1,20 +1,19 @@
 import instance from "../services/instance";
 
-const moviesLoader = async () => {
+const moviesLoader = async (searchTerm = "infinity war") => {
   try {
     const response = await instance.get("/", {
       params: {
         apikey: "2847fd3c",
-        // type: "movie",
-        s: "infinity war",
+        s: searchTerm.trim() === "" ? "infinity war" : searchTerm,
       },
     });
     const data = response.data;
     console.log(data);
-    return data.Search;
+    return data.Response === "True" ? data.Search : [];
   } catch (error) {
-    console.error("Error fetching :", error.message);
-    return null;
+    console.error("Error fetching movies:", error.message);
+    return [];
   }
 };
 
