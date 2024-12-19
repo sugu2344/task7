@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLoaderData } from "react-router-dom";
-import moviesLoader from "../loader/movieloaders";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { moviesLoader } from "../loader/movieloaders";
 
 const LandingPage = () => {
   const initialMovies = useLoaderData();
   const [movies, setMovies] = useState(initialMovies);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     const value = e.target.value;
@@ -27,10 +28,16 @@ const LandingPage = () => {
     };
     loadMovies();
   }, [searchTerm]);
+
+  const handleViewDetails = (movie) => {
+    navigate(`/detailpage/${movie.imdbID}`, {
+      state: { imdbID: movie.imdbID },
+    });
+  };
+
   return (
     <div className="py-10 my-3 mx-3">
       <div className="bg-[#F7F7F2]">
-        {/* Search Input */}
         <div className="pt-3 pb-3 flex justify-center">
           <input
             className="w-[60%] p-2 border border-spacing-2"
@@ -41,7 +48,6 @@ const LandingPage = () => {
           />
         </div>
 
-        {/* Movies Card */}
         <div className="flex flex-wrap gap-4 p-5 bg-[#0D1F2D] py-6 mx-4">
           {movies.length > 0 ? (
             movies.map((movie) => (
@@ -64,7 +70,10 @@ const LandingPage = () => {
                     {movie.Year}
                   </p>
                   <div className="flex space-x-2">
-                    <button className="border-2 p-2 rounded-xl text-[#FF3562] hover:bg-black hover:text-white cursor-pointer mt-auto">
+                    <button
+                      onClick={() => handleViewDetails(movie)}
+                      className="border-2 p-2 rounded-xl text-[#FF3562] hover:bg-black hover:text-white cursor-pointer mt-auto"
+                    >
                       View Details
                     </button>
                     <button className="border-2 p-2 rounded-xl hover:bg-black hover:text-white cursor-pointer mt-auto">
