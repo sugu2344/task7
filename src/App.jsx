@@ -1,9 +1,40 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Homepage from "./components/homepage";
+import MovieDetailPage from "./components/moviedetailpage";
+import LandingPage from "./components/landingpage";
+
 const App = () => {
+  const routes = [
+    {
+      path: "/",
+      element: <Homepage />,
+      children: [
+        {
+          path: "/",
+          element: <LandingPage />,
+        },
+        {
+          path: "/detailpage",
+          element: <MovieDetailPage />,
+        },
+      ],
+    },
+  ];
+  let router = createBrowserRouter(routes, {
+    future: {
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_skipActionErrorRevalidation: true,
+      v7_skipActionStatusRevalidation: true,
+      v7_partialHydration: true,
+      v7_startTransition: true,
+    },
+  });
+
   return (
-    <div>
-      <h1>hello world</h1>
-      <p>hello world</p>
-    </div>
+    <movieProvider>
+      <RouterProvider router={router} future={{ v7_relativeSplatPath: true }} />
+    </movieProvider>
   );
 };
 
