@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./components/homepage";
 import MovieDetailPage from "./components/moviedetailpage";
 import LandingPage from "./components/landingpage";
+import moviesLoader from "./loader/movieloaders";
 
 const App = () => {
   const routes = [
@@ -12,6 +13,8 @@ const App = () => {
         {
           path: "/",
           element: <LandingPage />,
+          loader: moviesLoader,
+          hydrateFallbackElement: <p>Loading.......</p>,
         },
         {
           path: "/detailpage",
