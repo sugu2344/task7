@@ -120,13 +120,27 @@ npm install -D tailwindcss postcss autoprefixer
 ```bash
 npx tailwindcss init -p
 ```
+
+#### Tailwind index.css
+```bash
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+#### Tailwind config.js
+```bash
+ content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+```
 #### To run the project
 ```bash
   npm run dev
 ```
 #### For routing package 
 ```bash
-npm install react-router-dom@V6
+npm i react-router-dom@v6
 ```
 #### For data extraction package 
 ```bash
