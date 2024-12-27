@@ -54,10 +54,6 @@ This task description explains the project objectives, key features, and tools u
 
 ## Screenshots
 
-#### landing page web view with filter
-
-![web view filter 4](https://github.com/user-attachments/assets/b5d9cd1f-b3ba-48ad-a02d-cca529b6590e)
-
 
 #### pic 2 Favourites page
 
